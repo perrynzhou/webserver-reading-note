@@ -15,26 +15,62 @@ static void *ngx_palloc_block(ngx_pool_t *pool, size_t size);
 static void *ngx_palloc_large(ngx_pool_t *pool, size_t size);
 
 
+//初始化一个内存池
 ngx_pool_t *
 ngx_create_pool(size_t size, ngx_log_t *log)
 {
     ngx_pool_t  *p;
 
+   //如果系统对齐内存申请，则调用内存对齐的内存内存申请的函数，默认调用malloc申请内存
     p = ngx_memalign(NGX_POOL_ALIGNMENT, size, log);
     if (p == NULL) {
         return NULL;
     }
+    /*
 
+        struct ngx_pool_cleanup_s {
+            ngx_pool_cleanup_pt   handler;
+            void                 *data;
+            ngx_pool_cleanup_t   *next;
+        };
+        typedef struct ngx_pool_large_s  ngx_pool_large_t;
+
+        struct ngx_pool_large_s {
+            ngx_pool_large_t     *next;
+            void                 *alloc;
+        };
+        typedef struct {
+            u_char               *last;
+            u_char               *end;
+            ngx_pool_t           *next;
+            ngx_uint_t            failed;
+        } ngx_pool_data_t;
+        struct ngx_pool_s {
+            ngx_pool_data_t       d;
+            size_t                max;
+            ngx_pool_t           *current;
+            ngx_chain_t          *chain;
+            ngx_pool_large_t     *large;
+            ngx_pool_cleanup_t   *cleanup;
+            ngx_log_t            *log;
+    };
+    */
+    //ngx_pool_data_t是内存池提供给上层应用的内存空间结构
+    //d.last 是剔除ngx_pool_t大小的内存地址的可用内存的开始地址
     p->d.last = (u_char *) p + sizeof(ngx_pool_t);
+    //d.end 是申请内存的其实地址
     p->d.end = (u_char *) p + size;
     p->d.next = NULL;
     p->d.failed = 0;
 
     size = size - sizeof(ngx_pool_t);
+    //申请的内存超过 （size-pagesize)大小，则需要设置为ngx_pagesize大小
     p->max = (size < NGX_MAX_ALLOC_FROM_POOL) ? size : NGX_MAX_ALLOC_FROM_POOL;
-
+    
+    //p->current指向当前的ngx_poll_t的结构
     p->current = p;
     p->chain = NULL;
+    //申请大块内存的链接
     p->large = NULL;
     p->cleanup = NULL;
     p->log = log;
