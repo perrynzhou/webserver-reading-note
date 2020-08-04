@@ -57,3 +57,9 @@ struct ngx_pool_large_s {
 - ngx_pnalloc:从内存池中申请内存
 - ngx_pmemalign:按照对齐方式方式申请large结构体内存
 - ngx_pfree:释放大块内存
+
+
+### 内存池函数注释
+
+- ngx_palloc.h:https://github.com/perrynzhou/nginx-1.19.1-reading-note/blob/perryn/dev/nginx-1.19.1/src/core/ngx_palloc.h
+- ngx_palloc.c:https://github.com/perrynzhou/nginx-1.19.1-reading-note/blob/perryn/dev/nginx-1.19.1/src/core/ngx_palloc.c
