@@ -29,7 +29,7 @@ struct ngx_pool_s {
 typedef struct {
     //可用内存的开始地址
     u_char               *last;
-    //内存的末尾地址，扩展一个nginx_pool_t时候指向，这个连续内存的末尾地址
+    //可用内存的末尾地址
     u_char               *end;
     //指向下一个内存pool
     ngx_pool_t           *next;
@@ -50,10 +50,10 @@ struct ngx_pool_large_s {
 ```
 ### 基本函数介绍
 
-- ngx_create_pool:nginx
-- ngx_destroy_pool:
-- ngx_reset_pool:
-- ngx_palloc:
-- ngx_pnalloc:
-- ngx_pmemalign:
-- ngx_pfree:
+- ngx_create_pool:nginx的内存池创建
+- ngx_destroy_pool:销毁一个内存池
+- ngx_reset_pool:重置一个内存池中的小块内存，同时释放大块内存
+- ngx_palloc:通过系统调用函数申请内存
+- ngx_pnalloc:从内存池中申请内存
+- ngx_pmemalign:按照对齐方式方式申请large结构体内存
+- ngx_pfree:释放大块内存

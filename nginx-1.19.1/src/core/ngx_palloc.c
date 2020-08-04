@@ -260,31 +260,32 @@ ngx_palloc_large(ngx_pool_t *pool, size_t size)
     void              *p;
     ngx_uint_t         n;
     ngx_pool_large_t  *large;
-
+    //采用caloc申请内存
     p = ngx_alloc(size, pool->log);
     if (p == NULL) {
         return NULL;
     }
 
     n = 0;
-
+    //在large链表上查找，n防止large链表太长
     for (large = pool->large; large; large = large->next) {
+        //下面代码执行是在第一次申请large时候执行，后续只要for循环中间位置的large不为空，下面代码永远不会执行
         if (large->alloc == NULL) {
             large->alloc = p;
             return p;
         }
-
+        //这里n++的意义在哪里？貌似没有什么意义，就是执行了3次,large=large->next操作而已，不知到为何作者会这么写？
         if (n++ > 3) {
             break;
         }
     }
-
+    //large这数据结构大小属于小块，直接在ngx_pool_data_t中申请，ngx_palloc_small函数最后一个参数含义是是否启用对齐
     large = ngx_palloc_small(pool, sizeof(ngx_pool_large_t), 1);
     if (large == NULL) {
         ngx_free(p);
         return NULL;
     }
-
+    //链接大块内存
     large->alloc = p;
     large->next = pool->large;
     pool->large = large;
@@ -299,11 +300,12 @@ ngx_pmemalign(ngx_pool_t *pool, size_t size, size_t alignment)
     void              *p;
     ngx_pool_large_t  *large;
 
+    //按照alignment个字节对齐方式申请内存
     p = ngx_memalign(alignment, size, pool->log);
     if (p == NULL) {
         return NULL;
     }
-
+    //申请小块内存保存ngx_pool_large_t结构
     large = ngx_palloc_small(pool, sizeof(ngx_pool_large_t), 1);
     if (large == NULL) {
         ngx_free(p);
@@ -323,6 +325,7 @@ ngx_pfree(ngx_pool_t *pool, void *p)
 {
     ngx_pool_large_t  *l;
 
+    //遍历所有large内存，然后调用系统函数释放内存
     for (l = pool->large; l; l = l->next) {
         if (p == l->alloc) {
             ngx_log_debug1(NGX_LOG_DEBUG_ALLOC, pool->log, 0,
