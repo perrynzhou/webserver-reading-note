@@ -60,6 +60,5 @@ struct ngx_pool_large_s {
 
 
 ### 内存池函数注释
-
-- ngx_palloc.h:https://github.com/perrynzhou/nginx-1.19.1-reading-note/blob/perryn/dev/nginx-1.19.1/src/core/ngx_palloc.h
-- ngx_palloc.c:https://github.com/perrynzhou/nginx-1.19.1-reading-note/blob/perryn/dev/nginx-1.19.1/src/core/ngx_palloc.c
+[ngx_palloc.h](https://github.com/perrynzhou/nginx-1.19.1-reading-note/blob/perryn/dev/nginx-1.19.1/src/core/ngx_palloc.h)
+[ngx_palloc.c](https://github.com/perrynzhou/nginx-1.19.1-reading-note/blob/perryn/dev/nginx-1.19.1/src/core/ngx_palloc.c)

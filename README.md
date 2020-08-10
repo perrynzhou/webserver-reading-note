@@ -7,4 +7,4 @@
 - 针对该版本在代码层面梳理一份有C语言基础的同学都可以读懂
 
 ## nginx 内存管理
-[1.nginx内存池实现和分析](./document/nginx内存池实现和分析.md)
+- [1.nginx内存池实现和分析](./document/nginx内存池实现和分析.md)
