@@ -110,5 +110,11 @@ close(7)                                = 0
 epoll_wait(12, 
 ```
 
-- 使用system tap追踪nginx的过程
 
+
+
+#### nginx 请求处理规则
+
+- 按照[ngx_modules.c](./document/nginx-1.18.0/ngx_modules.c)中定义的模块，当一个请求同时符合多个模块的处理规则时候，按照ngx_modules数组中的顺序选择最靠前的模块优先处理.
+
+- 按照[ngx_modules.c](./document/nginx-1.18.0/ngx_modules.c)中定义的模块，针对http的过滤模块而言则是相反的，因为http框架在初始化时候，会在ngx_modules的数组中将过滤模块按先后顺序向filter list中添加，每次添加都是添加到表头，因此针对http模块，越是靠后的模块越是优先响应http.
