@@ -244,7 +244,7 @@ ngx_process_events_and_timers(ngx_cycle_t *cycle)
     }
 
     delta = ngx_current_msec;
-   //nginx的event事件处理函数
+   //nginx的event事件处理函数，实调用的是 ngx_epoll_process_events函数
     (void) ngx_process_events(cycle, timer, flags);
 
     delta = ngx_current_msec - delta;
