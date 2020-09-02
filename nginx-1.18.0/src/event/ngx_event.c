@@ -190,6 +190,7 @@ ngx_module_t  ngx_event_core_module = {
 };
 
 
+//nginx的事件和定时器处理函数
 void
 ngx_process_events_and_timers(ngx_cycle_t *cycle)
 {
@@ -243,7 +244,7 @@ ngx_process_events_and_timers(ngx_cycle_t *cycle)
     }
 
     delta = ngx_current_msec;
-
+   //nginx的event事件处理函数
     (void) ngx_process_events(cycle, timer, flags);
 
     delta = ngx_current_msec - delta;

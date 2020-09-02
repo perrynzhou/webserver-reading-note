@@ -182,7 +182,7 @@ ngx_spawn_process(ngx_cycle_t *cycle, ngx_spawn_proc_pt proc, void *data,
 
     ngx_process_slot = s;
 
-
+   //此处开始fork子进程
     pid = fork();
 
     switch (pid) {
@@ -196,6 +196,7 @@ ngx_spawn_process(ngx_cycle_t *cycle, ngx_spawn_proc_pt proc, void *data,
     case 0:
         ngx_parent = ngx_pid;
         ngx_pid = ngx_getpid();
+        //设置子进程中执行的函数
         proc(cycle, data);
         break;
 

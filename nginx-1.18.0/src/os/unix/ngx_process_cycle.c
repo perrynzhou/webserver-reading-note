@@ -342,6 +342,7 @@ ngx_single_process_cycle(ngx_cycle_t *cycle)
 }
 
 
+//主进程的核心函数，用于创建子进程和设置子进程中需要执行的函数
 static void
 ngx_start_worker_processes(ngx_cycle_t *cycle, ngx_int_t n, ngx_int_t type)
 {
@@ -353,9 +354,9 @@ ngx_start_worker_processes(ngx_cycle_t *cycle, ngx_int_t n, ngx_int_t type)
     ngx_memzero(&ch, sizeof(ngx_channel_t));
 
     ch.command = NGX_CMD_OPEN_CHANNEL;
-
+    //获取配置中配置的进程数量
     for (i = 0; i < n; i++) {
-
+        //fork的wraper函数，执行fork子进程和把ngx_worker_process_cycle设置到子进程中执行
         ngx_spawn_process(cycle, ngx_worker_process_cycle,
                           (void *) (intptr_t) i, "worker process", type);
 
@@ -732,6 +733,7 @@ ngx_worker_process_cycle(ngx_cycle_t *cycle, void *data)
     ngx_process = NGX_PROCESS_WORKER;
     ngx_worker = worker;
 
+   //nginx工作进程的初始化
     ngx_worker_process_init(cycle, worker);
 
     ngx_setproctitle("worker process");
@@ -746,7 +748,7 @@ ngx_worker_process_cycle(ngx_cycle_t *cycle, void *data)
         }
 
         ngx_log_debug0(NGX_LOG_DEBUG_EVENT, cycle->log, 0, "worker cycle");
-
+       //nginx的事件和定时器的处理函数
         ngx_process_events_and_timers(cycle);
 
         if (ngx_terminate) {
