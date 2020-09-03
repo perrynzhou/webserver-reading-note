@@ -70,6 +70,7 @@ static ngx_log_t        ngx_exit_log;
 static ngx_open_file_t  ngx_exit_log_file;
 
 
+//nginx的主进程的执行核心逻辑，主要是接受来自用户发送的nginx信号的处理
 void
 ngx_master_process_cycle(ngx_cycle_t *cycle)
 {
@@ -127,16 +128,17 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
 
 
     ccf = (ngx_core_conf_t *) ngx_get_conf(cycle->conf_ctx, ngx_core_module);
-
+    // 启动子进程作为工作进程
     ngx_start_worker_processes(cycle, ccf->worker_processes,
                                NGX_PROCESS_RESPAWN);
+    //启动缓存管理进程
     ngx_start_cache_manager_processes(cycle, 0);
 
     ngx_new_binary = 0;
     delay = 0;
     sigio = 0;
     live = 1;
-
+    //循环等到用户发送的信号
     for ( ;; ) {
         if (delay) {
             if (ngx_sigalrm) {
@@ -160,7 +162,7 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
         }
 
         ngx_log_debug0(NGX_LOG_DEBUG_EVENT, cycle->log, 0, "sigsuspend");
-
+        //如果没有收到信号，则阻塞到这里
         sigsuspend(&set);
 
         ngx_time_update();
@@ -174,11 +176,11 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
 
             live = ngx_reap_children(cycle);
         }
-
+        //如果收到了nginx的退出信号，则执行ngx_master_process_exit的函数
         if (!live && (ngx_terminate || ngx_quit)) {
             ngx_master_process_exit(cycle);
         }
-
+        //如果收到的terminate信号
         if (ngx_terminate) {
             if (delay == 0) {
                 delay = 50;
@@ -192,6 +194,7 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
             sigio = ccf->worker_processes + 2 /* cache processes */;
 
             if (delay > 1000) {
+                //quit信号的对应的信号处理函数
                 ngx_signal_worker_processes(cycle, SIGKILL);
             } else {
                 ngx_signal_worker_processes(cycle,
@@ -200,8 +203,9 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
 
             continue;
         }
-
+        //如果收到quit信号
         if (ngx_quit) {
+            //则调用ngx_signal_worker_processes函数处理
             ngx_signal_worker_processes(cycle,
                                         ngx_signal_value(NGX_SHUTDOWN_SIGNAL));
 
@@ -217,7 +221,7 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
 
             continue;
         }
-
+        //重新加载配置文件
         if (ngx_reconfigure) {
             ngx_reconfigure = 0;
 
@@ -241,14 +245,18 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
             ngx_cycle = cycle;
             ccf = (ngx_core_conf_t *) ngx_get_conf(cycle->conf_ctx,
                                                    ngx_core_module);
+            //重新启动子进程作为工作进程
             ngx_start_worker_processes(cycle, ccf->worker_processes,
                                        NGX_PROCESS_JUST_RESPAWN);
+            //重新启动cache的管理进程
             ngx_start_cache_manager_processes(cycle, 1);
 
             /* allow new processes to start */
             ngx_msleep(100);
 
+            
             live = 1;
+            //关闭原来旧的工作进程
             ngx_signal_worker_processes(cycle,
                                         ngx_signal_value(NGX_SHUTDOWN_SIGNAL));
         }
@@ -342,6 +350,7 @@ ngx_single_process_cycle(ngx_cycle_t *cycle)
 }
 
 
+//主进程的核心函数，用于创建子进程和设置子进程中需要执行的函数
 static void
 ngx_start_worker_processes(ngx_cycle_t *cycle, ngx_int_t n, ngx_int_t type)
 {
@@ -353,9 +362,9 @@ ngx_start_worker_processes(ngx_cycle_t *cycle, ngx_int_t n, ngx_int_t type)
     ngx_memzero(&ch, sizeof(ngx_channel_t));
 
     ch.command = NGX_CMD_OPEN_CHANNEL;
-
+    //获取配置中配置的进程数量
     for (i = 0; i < n; i++) {
-
+        //fork的wraper函数，执行fork子进程和把ngx_worker_process_cycle设置到子进程中执行
         ngx_spawn_process(cycle, ngx_worker_process_cycle,
                           (void *) (intptr_t) i, "worker process", type);
 
@@ -732,6 +741,7 @@ ngx_worker_process_cycle(ngx_cycle_t *cycle, void *data)
     ngx_process = NGX_PROCESS_WORKER;
     ngx_worker = worker;
 
+   //nginx工作进程的初始化
     ngx_worker_process_init(cycle, worker);
 
     ngx_setproctitle("worker process");
@@ -746,7 +756,7 @@ ngx_worker_process_cycle(ngx_cycle_t *cycle, void *data)
         }
 
         ngx_log_debug0(NGX_LOG_DEBUG_EVENT, cycle->log, 0, "worker cycle");
-
+       //nginx的事件和定时器的处理函数
         ngx_process_events_and_timers(cycle);
 
         if (ngx_terminate) {
