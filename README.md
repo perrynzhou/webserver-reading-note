@@ -11,4 +11,4 @@
 - [2.nginx内存池实现和分析](./document/nginx-1.18.0/nginx内存池实现和分析.md)
 - [3.nginx模块开发](./document/nginx-1.18.0/nginx模块开发.md)
 - [4.nginx源码调试](./document/nginx-1.18.0/nginx源码调试.md)
-
+- [5.nginx进程模型](./document/nginx-1.18.0/nginx进程模型.md)
