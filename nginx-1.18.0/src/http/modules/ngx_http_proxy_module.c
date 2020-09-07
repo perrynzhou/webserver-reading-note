@@ -465,9 +465,10 @@ static ngx_command_t  ngx_http_proxy_commands[] = {
       NGX_HTTP_LOC_CONF_OFFSET,
       0,
       NULL },
-
+    //proxy_cache_path命令解析
     { ngx_string("proxy_cache_path"),
       NGX_HTTP_MAIN_CONF|NGX_CONF_2MORE,
+      //该命令的处理函数
       ngx_http_file_cache_set_slot,
       NGX_HTTP_MAIN_CONF_OFFSET,
       offsetof(ngx_http_proxy_main_conf_t, caches),

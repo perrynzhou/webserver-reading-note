@@ -1953,7 +1953,7 @@ ngx_http_file_cache_delete(ngx_http_file_cache_t *cache, ngx_queue_t *q,
     }
 }
 
-
+//cache中缓存管理的缓存文件的manaer的处理函数
 static ngx_msec_t
 ngx_http_file_cache_manager(void *data)
 {
@@ -1966,7 +1966,7 @@ ngx_http_file_cache_manager(void *data)
 
     cache->last = ngx_current_msec;
     cache->files = 0;
-
+    //删除已经过期的缓存文件
     next = (ngx_msec_t) ngx_http_file_cache_expire(cache) * 1000;
 
     if (next == 0) {
@@ -1990,7 +1990,7 @@ ngx_http_file_cache_manager(void *data)
         if (size < cache->max_size && count < watermark) {
             break;
         }
-
+        //缓存文件超过了总大小，强制设置过期
         wait = ngx_http_file_cache_forced_expire(cache);
 
         if (wait > 0) {
@@ -2299,6 +2299,7 @@ ngx_http_file_cache_valid(ngx_array_t *cache_valid, ngx_uint_t status)
 }
 
 
+//根据配置文件来设置ngx_http_file_cache_t的相关cache管理进程的相关缓存文件的处理函数
 char *
 ngx_http_file_cache_set_slot(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 {
@@ -2571,7 +2572,7 @@ ngx_http_file_cache_set_slot(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
                            &cmd->name);
         return NGX_CONF_ERROR;
     }
-
+    //设置缓存的管理和加载的方法
     cache->path->manager = ngx_http_file_cache_manager;
     cache->path->loader = ngx_http_file_cache_loader;
     cache->path->data = cache;

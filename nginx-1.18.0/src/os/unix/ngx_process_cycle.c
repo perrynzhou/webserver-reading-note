@@ -56,11 +56,15 @@ ngx_uint_t    ngx_restart;
 static u_char  master_process[] = "master process";
 
 
+//nginx的cache管理进程
 static ngx_cache_manager_ctx_t  ngx_cache_manager_ctx = {
+    //ngx_cache_manager_process_handler为nginx的管理进程的处理函数
     ngx_cache_manager_process_handler, "cache manager process", 0
 };
 
+//nginx中cache加载进程
 static ngx_cache_manager_ctx_t  ngx_cache_loader_ctx = {
+    //ngx_cache_loader_process_handler为cache加载进程的处理函数
     ngx_cache_loader_process_handler, "cache loader process", 60000
 };
 
@@ -1184,6 +1188,7 @@ ngx_cache_manager_process_cycle(ngx_cycle_t *cycle, void *data)
 }
 
 
+//处理每一个磁盘缓存对象的manage函数。然后重新设置磁盘对象下一次超时的时刻返回
 static void
 ngx_cache_manager_process_handler(ngx_event_t *ev)
 {
@@ -1197,6 +1202,9 @@ ngx_cache_manager_process_handler(ngx_event_t *ev)
     for (i = 0; i < ngx_cycle->paths.nelts; i++) {
 
         if (path[i]->manager) {
+            //manager函数为ngx_http_file_cache_manager函数
+            //nginx调用ngx_http_file_cache_set_slot解析配置指令指令proxy_cache_path来设置回调函数。
+            //manager做两件事情，第一是删除已经过期的缓存文件，然后检查缓存文件是否超过总大小，如果超过则强制进行删除
             n = path[i]->manager(path[i]->data);
 
             next = (n <= next) ? n : next;

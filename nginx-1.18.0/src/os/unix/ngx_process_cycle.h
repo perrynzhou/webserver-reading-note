@@ -27,6 +27,7 @@
 #define NGX_PROCESS_HELPER     4
 
 
+//定义nginx中cache管理进程的核心数据结构
 typedef struct {
     ngx_event_handler_pt       handler;
     char                      *name;
