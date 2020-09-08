@@ -12,4 +12,5 @@
 - [3.nginx模块开发](./document/nginx-1.18.0/nginx模块开发.md)
 - [4.nginx源码调试](./document/nginx-1.18.0/nginx源码调试.md)
 - [5.nginx进程模型](./document/nginx-1.18.0/nginx进程模型.md)
-- [6.nginx缓存管理和加载进程](./document/nginx-1.18.0/nginx缓存管理和加载进程.md)
+- [6.nginx缓存管理进程](./document/nginx-1.18.0/nginx缓存管理.md)
+- [7.nginx缓存加载进程](./document/nginx-1.18.0/缓存加载进程.md)

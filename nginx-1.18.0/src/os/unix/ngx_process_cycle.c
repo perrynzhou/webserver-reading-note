@@ -65,6 +65,9 @@ static ngx_cache_manager_ctx_t  ngx_cache_manager_ctx = {
 //nginx中cache加载进程
 static ngx_cache_manager_ctx_t  ngx_cache_loader_ctx = {
     //ngx_cache_loader_process_handler为cache加载进程的处理函数
+    //ngx_cache_loader_process_handler 进程具体做的处理函数
+    //cache loader process 为进程名称
+    //60000 表示60000毫秒
     ngx_cache_loader_process_handler, "cache loader process", 60000
 };
 
