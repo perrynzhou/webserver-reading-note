@@ -33,7 +33,7 @@ typedef struct {
     size_t             size;
 } ngx_radix_tree_t;
 
-
+//radix tree用于geo模块，Nginx的geo模块不仅可以有限速白名单的作用，还可以做全局负载均衡，可以要根据客户端ip访问到不同的server
 ngx_radix_tree_t *ngx_radix_tree_create(ngx_pool_t *pool,
     ngx_int_t preallocate);
 
