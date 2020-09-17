@@ -12,10 +12,12 @@
 #include <ngx_config.h>
 #include <ngx_core.h>
 
-
+//哈希中实际元素是ngx_hash_elt_t存储
 typedef struct {
     void             *value;
+    //name的长度
     u_short           len;
+    //使用了柔性数组存储server_name
     u_char            name[1];
 } ngx_hash_elt_t;
 
@@ -48,12 +50,14 @@ typedef struct {
     ngx_hash_wildcard_t  *wc_tail;
 } ngx_hash_combined_t;
 
-
+//哈希主结构
 typedef struct {
+    //哈希表
     ngx_hash_t       *hash;
     ngx_hash_key_pt   key;
 
     ngx_uint_t        max_size;
+    //哈希桶的数量
     ngx_uint_t        bucket_size;
 
     char             *name;
@@ -103,6 +107,8 @@ void *ngx_hash_find_wc_tail(ngx_hash_wildcard_t *hwc, u_char *name, size_t len);
 void *ngx_hash_find_combined(ngx_hash_combined_t *hash, ngx_uint_t key,
     u_char *name, size_t len);
 
+//哈希函数初始化，nginx中的虚拟主机使用到了哈希数据结构
+//nginx启动以后，如果一个客户端请求到nginx配置中的某个server中（前提是nginx配置了多个server),nginx肯定要查找，为了提高效率nginx针对这些server_name建立一个hash数据结构
 ngx_int_t ngx_hash_init(ngx_hash_init_t *hinit, ngx_hash_key_t *names,
     ngx_uint_t nelts);
 ngx_int_t ngx_hash_wildcard_init(ngx_hash_init_t *hinit, ngx_hash_key_t *names,
