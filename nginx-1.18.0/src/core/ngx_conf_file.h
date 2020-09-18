@@ -73,12 +73,15 @@
 
 #define NGX_MAX_CONF_ERRSTR  1024
 
-
+//nginx使用ngx_command_s数据结构对所有的nginx配置进行统一的描述
 struct ngx_command_s {
+    //配置项目的名字
     ngx_str_t             name;
     ngx_uint_t            type;
+    //配置指令的回调函数
     char               *(*set)(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
     ngx_uint_t            conf;
+    //offset指定转换后控制值
     ngx_uint_t            offset;
     void                 *post;
 };
