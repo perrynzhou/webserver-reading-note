@@ -8,7 +8,7 @@
 
 - nginx模块按照功能划分可以分为如下4大类
 
-  - ![nginx-module-overview](../images/nginx-module-overview.jpg)
+  ![nginx-module-overview](../images/nginx-module-overview.jpg)
 
   - handlers模块:协同完成客户端请求处理、产生响应数据、比如ngx_http_rewrite_module模块，用于处理客户端请求的地址重写；ngx_http_static_module模块，负责处理客户端的静态页面请求；ngx_http_log_module模块，负责记录用户日志。
   - filters模块:对handlers产生的响应数据做各种过滤，比如模块ngx_http_not_modified_filter_module对响应数据进行过滤检测，如果通过时间戳判断出前后两次请求的响应数据没有发生任何实质性的改变，那么直接响应 "304 Not Modified"的状态标识，让客户端使用本地缓存即可，而原本待发送的响应数据被清除
