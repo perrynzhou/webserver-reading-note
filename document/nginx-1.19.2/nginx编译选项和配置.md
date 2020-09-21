@@ -25,7 +25,7 @@ $ configure 后面可以跟着很多编译选项
   - --add-module=path,指定nginx第三方模块的源代码，这样nginx可以把第三方模块像自带模块一样进行编译，这个选项可以在configure后面出现任意多次，从而达到一次为nginx添加任意多的第三方模块
   - --add-dynamic-module=patj,这个功能和--add-module功能相同，--add-dynamic-module分离nginx主可执行程序和模块，可以在启动时候灵活组合动态加载，方便、nginx更新，使用"make modules"只编译变动模块，而nginx核心代码无须重新编译
 
-- nginx配置
+- 基本配置
   - 进程管理相关配置(全局域配置)
     - worker_processes {number}|auto,设置nginx能够启动的worker的进程数目，通常nginx的worker进程和CPU核心数相等时能获取最佳的性能，这个配置一般需要和worker_cpu_affinity指令配合使用
     - worker_cpu_affinity auto | {cpumask},指定worker进程运行在某个cpu核心上。
@@ -46,3 +46,127 @@ $ configure 后面可以跟着很多编译选项
     error_log file|sterrr level;
     ```
     - worker_connections,配置worker进程的最大连接数，默认是1024
+
+- http配置
+  - http配置模板
+  ```
+  http{
+    upstream{
+      //配置上游服务器
+    }
+    server {
+      listen 80;
+      localtion {
+        ....
+      }
+    }
+    server {
+      listen 81;
+      location {
+        .....
+      }
+    }
+  }
+  ```
+  - 基本配置,http模块常用有4个指令来配置http基本功能
+  ```
+  //配置域名服务器，如果不配置nginx将无法正确解析域名的IP地址，也无法访问后端服务
+  resolver address [valid=time] [ipv6=on|off]
+
+  //设置keepalove超时时间，默认是75S，通常有利于客户端复用HTTP长连接，提供服务器性能;如果希望服务器发送完数据就主动断开就把它设置为0
+  keepalive_timeout timeout
+
+  //配置access访问日志，日志格式是有log_format决定；其中buffer和flush选项制定磁盘写缓冲区大小和刷新时间
+  access log [format [buffer=size]   [flush=time] [if=condition]];
+  log_format name format_string;
+
+  access_log /var/logs/nginx/access.log buffer=8k flush= 1s;
+
+  ```
+
+  - location配置
+  ```
+  // = 表示uri必须完全匹配
+  // ~ 表示大小写敏感匹配
+  // ~* 表示大小写不敏感匹配
+  // ^~ 表示前缀匹配
+  location [= 或者 ~ 或者 ~* 或者^~或者@] uri {....}
+  ```
+
+  - file配置
+  ```
+  //经过sever和location后，我们需要确定URI的处理方式，如果nginxy用作静态服务器，那么文件访问配置就简单了,需要指定存放路径和文件名称即可
+
+
+  //设置请求资源的根目录,将以path作为起始路径在磁盘上查找文件.当请求/image/1.jpg时候，就返回文件/var/data/1.jpg的内容
+  location /image{
+    root /var/data/
+  }
+  ```
+  - 反向代理,它位于客户端和真正服务器之间，接受客户端请求转发给后端，然后把后端的处理结果返回给客户端
+  
+  ```
+  upstream backend {
+    keepalive 32;
+    zone shared_upstream_storage 64k;
+    server 127.0.0.1:80;
+  }
+  ```
+
+  - 负载均衡,它决定了nginx访问后端服务器集群时策略，根据系统实际场景选择合适的算法可以把流量尽可能均匀分配到每一台后盾服务器，优化资源利用率，目前nignx内置负载均衡算法、
+    - round robin,分为普通轮询和带权限的轮询算法，默认算法，将请求按顺序轮流地分配到后端服务器上，它均衡地对待后端的每一台服务器，而不关心服务器实际的连接数和当前的系统负载
+    ```
+    //普通轮询算法
+    stream {
+      upstream web1 {       
+        server 10.0.0.1 weight=5;       
+        server 10.0.0.2 weight=10; 
+      }
+    }
+    //加权轮询算法
+    stream {
+      upstream web2 {       
+        server 10.0.0.1;       
+        server 10.0.0.2; 
+      }
+    }
+    ```
+   
+   
+    - ip_hash,使用IP地址的散列算法，通过管理发送方IP和目的地IP地址的散列，将来自同一发送方的分组(或发送至同一目的地的分组)统一转发到相同服务器的算法。当客户端有一系列业务需要处理而必须和一个服务器反复通信时，该算法能够以流(会话)为单位，保证来自相同客户端的通信能够一直在同一服务器中进行处理。
+     ```
+     stream {
+      upstream web {      
+        ip_hash;      
+        server 10.0.0.1:8080;       
+        server 10.0.0.2:8080; 
+      }
+     }
+    ```
+    - least_conn,带权重的最少活跃连接算法,选择负载最轻的服务器，最小连接数算法比较灵活和智能，由于后端服务器的配置不尽相同，对于请求的处理有快有慢，它是根据后端服务器当前的连接情况，动态地选取其中当前
+    ```
+    stream {
+    upstream web2 {
+        least_conn;
+        server 10.0.0.2:8080 max_fails=3 fail_timeout=5s;
+        server 10.0.0.21:8080 max_fails=3 fail_timeout=5s;
+    }
+    ```
+
+- 代理转发,在使用upstreamp{}配置了上游集群服务器均衡算法后，就可以在location(http)或者server(stream)里面设置proxy_pass等指令把客户端的请求转发到后端，实现反向代理功能
+
+```
+//转发http请求的location
+location /index {
+  //转发原始请求的host头部
+  proxy_set_header Host host;
+  //转发到upstream块定义的服务器集群
+  proxy_pass http://web2;
+}
+
+//转发grpc的location
+location /pass_to_grpc {
+  //转发到grpc后端服务集群
+  grpc_pass grpc_backend;
+}
+```
