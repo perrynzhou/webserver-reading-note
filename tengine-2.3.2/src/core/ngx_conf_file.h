@@ -18,7 +18,7 @@
  *      FF      command flags
  *    TT        command type, i.e. HTTP "location" or "server" command
  */
-
+//NGX_CONF_NOARGS ~NGX_CONF_TAKE7 表示配置项的配置没有token,1个token，2个token，3个koten...7个token
 #define NGX_CONF_NOARGS      0x00000001
 #define NGX_CONF_TAKE1       0x00000002
 #define NGX_CONF_TAKE2       0x00000004
@@ -30,6 +30,7 @@
 
 #define NGX_CONF_MAX_ARGS    8
 
+//NGX_CONF_TAKE12 ~NGX_CONF_TAKE1234 表示配置项中配置值的token数目不定
 #define NGX_CONF_TAKE12      (NGX_CONF_TAKE1|NGX_CONF_TAKE2)
 #define NGX_CONF_TAKE13      (NGX_CONF_TAKE1|NGX_CONF_TAKE3)
 
@@ -40,14 +41,16 @@
                               |NGX_CONF_TAKE4)
 
 #define NGX_CONF_ARGS_NUMBER 0x000000ff
+//NGX_CONF_BLOCK 表示配置项是一个复杂的配置
 #define NGX_CONF_BLOCK       0x00000100
+//NGX_CONF_FLAG 表示配置项目是一个布尔值
 #define NGX_CONF_FLAG        0x00000200
 #define NGX_CONF_ANY         0x00000400
 #define NGX_CONF_1MORE       0x00000800
 #define NGX_CONF_2MORE       0x00001000
 
 #define NGX_DIRECT_CONF      0x00010000
-
+//NGX_MAIN_CONF 配置文件最外层，不包括其内的类似于http这样的模块
 #define NGX_MAIN_CONF        0x01000000
 #define NGX_ANY_CONF         0x1F000000
 
@@ -115,6 +118,7 @@ typedef char *(*ngx_conf_handler_pt)(ngx_conf_t *cf,
 
 struct ngx_conf_s {
     char                 *name;
+    //配置文件解析到的token保存在args里面
     ngx_array_t          *args;
 
     ngx_cycle_t          *cycle;
