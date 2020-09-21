@@ -17,7 +17,7 @@
   - [6.nginx缓存管理进程](./document/nginx-1.19.2/nginx缓存管理.md)
   - [7.nginx缓存加载进程](./document/nginx-1.19.2/缓存加载进程.md)
   - [8.nginx编译和配置](./document/nginx-1.19.2/nginx编译选项和配置.md)
-  - [9.nginx模块介绍](./document/nginx-1.19.2/nginx模块介绍.md)
+  - [9.nginx模块介绍](./document/nginx-1.19.2/nginx模块概述.md)
 - 模块原理和分析
   - [1.ngx_http_static_module原理和分析（待完成）](./document/nginx-1.19.2/ngx_http_static_module原理和分析.md)
 
