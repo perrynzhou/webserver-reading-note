@@ -39,3 +39,10 @@ $ configure 后面可以跟着很多编译选项
     - daemon on|off,决定是否启用daemon方式运行nginx,默认是on,如果设置为off方便我们调试
     - working_directory {path},配置nginx工作目录，仅仅存放nginx的coredump文件
     - working_shutdown_timeout {time},当使用"nginx -s quit"要求终止运行,nginx将等待的时间，然后强制关闭进程，这个选项可以很好解决系统里面出现大量”is shutting down"状态的nginx进程问题
+    - access_log,配置http的访问请求的日志
+    - error_log,配置服务器错误日志
+    ```
+    //level级别有debug、info、notice、warn、error、crit、alert、emerg
+    error_log file|sterrr level;
+    ```
+    - worker_connections,配置worker进程的最大连接数，默认是1024
