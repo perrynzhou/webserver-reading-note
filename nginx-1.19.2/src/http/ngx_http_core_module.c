@@ -774,8 +774,9 @@ static ngx_command_t  ngx_http_core_commands[] = {
       ngx_null_command
 };
 
-
+//设置http模块的配置文件解释时候回调函数
 static ngx_http_module_t  ngx_http_core_module_ctx = {
+    //解析http块配置时候调用
     ngx_http_core_preconfiguration,        /* preconfiguration */
     ngx_http_core_postconfiguration,       /* postconfiguration */
 

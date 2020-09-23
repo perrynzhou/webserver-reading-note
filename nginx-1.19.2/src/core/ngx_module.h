@@ -220,9 +220,11 @@
 
 
 struct ngx_module_s {
+    //当前模块在同类模块中的编号
     ngx_uint_t            ctx_index;
+    //单个模块在全局模块中的序号
     ngx_uint_t            index;
-
+    //模块名称
     char                 *name;
 
     ngx_uint_t            spare0;
@@ -230,20 +232,25 @@ struct ngx_module_s {
 
     ngx_uint_t            version;
     const char           *signature;
-
+    //当前模块的私有数据，可以表示任何的数据
     void                 *ctx;
+    //当前模块配置项解析数组
     ngx_command_t        *commands;
+    //模块类型
     ngx_uint_t            type;
-
+    //初始化master进程时候被调用
     ngx_int_t           (*init_master)(ngx_log_t *log);
-
+    //初始化module时候被调用
     ngx_int_t           (*init_module)(ngx_cycle_t *cycle);
-
+    //初始化worker进程时候被调用
     ngx_int_t           (*init_process)(ngx_cycle_t *cycle);
+    //初始化线程时候被调用
     ngx_int_t           (*init_thread)(ngx_cycle_t *cycle);
+    //线程退出时候被调用
     void                (*exit_thread)(ngx_cycle_t *cycle);
+    //worker进程退出时候被调用主要体现在ngx_worker_process_exit这个函数上
     void                (*exit_process)(ngx_cycle_t *cycle);
-
+    //master进程退出时候被调用，主要体现在ngx_master_process_exit函数里
     void                (*exit_master)(ngx_cycle_t *cycle);
 
     uintptr_t             spare_hook0;
