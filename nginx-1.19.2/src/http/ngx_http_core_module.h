@@ -105,23 +105,27 @@ typedef struct {
 
 
 typedef enum {
+    //请求头读取完成之后的阶段
     NGX_HTTP_POST_READ_PHASE = 0,
-
+    //server内请求地址重写阶段
     NGX_HTTP_SERVER_REWRITE_PHASE,
-
+    //配置文件查找阶段
     NGX_HTTP_FIND_CONFIG_PHASE,
+    //location内请求地址重写阶段
     NGX_HTTP_REWRITE_PHASE,
+    //请求地址重写完成之后的阶段
     NGX_HTTP_POST_REWRITE_PHASE,
-
+    //访问权限检查准备阶段
     NGX_HTTP_PREACCESS_PHASE,
-
+    //访问权限检查阶段
     NGX_HTTP_ACCESS_PHASE,
+    //访问权限检查完成之后的阶段
     NGX_HTTP_POST_ACCESS_PHASE,
-
+    //内容产生准备阶段，目前只有ngx_http_mirror_module_ctx和ngx_http_try_files_module_ctx 
     NGX_HTTP_PRECONTENT_PHASE,
-
+    //内容产生阶段
     NGX_HTTP_CONTENT_PHASE,
-
+    //日志模块处理阶段
     NGX_HTTP_LOG_PHASE
 } ngx_http_phases;
 

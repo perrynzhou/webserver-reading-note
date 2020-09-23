@@ -21,7 +21,7 @@ typedef struct ngx_module_s          ngx_module_t;
 struct ngx_module_s {
 	//当前模块在同类模块中的序号
     ngx_uint_t            ctx_index;
-    //单签模块在所有模块中的学好
+    //单前模块在所有模块中的序号
     ngx_uint_t            index;
 	//模块名称
     char                 *name;
