@@ -39,12 +39,7 @@ nginx.conf 如下:
 $ nginx -c nginx.conf
 ```
 
-### 2.模块功能
-- 该模块主要处理NGX_HTTP_CONTENT_PHASE阶段的请求，这个阶段4个回调函数分别是 ngx_http_autoindex_handler、ngx_http_dav_handler、ngx_http_gzip_static_handler、ngx_http_index_handler、ngx_http_random_index_handler、ngx_http_static_handler。
-- ngx_http_static_module模块，这个核心做一个事情，当一个客户端的http静态页面请求发送到nginx服务端，nginx就能够调用到注册的ngx_http_static_handler函数。
-- 我们打开一个nginx服务时候,如果直接访问是一个目录,那么nginx先是查看当前目录下是否有index.html/index.html等默认显示页面，这是回调函数ngx_http_index_handler来做的事情；如果不存在默认页面，就生成该目录下文件和目录列表，这个是ngx_http_autoindex_handler函数做的事情；根据客户端静态页面请求查找对应页面文件并生成响应，这个是ngx_http_static_handler函数做的事情
-
-### 3.nginx模块结构体说明
+### 2.nginx模块结构体说明
 
 ```
 typedef struct ngx_module_s          ngx_module_t;
@@ -113,6 +108,13 @@ ngx_module_t  ngx_http_core_module = {
     NGX_MODULE_V1_PADDING
 };
 ```
+
+### 3.模块功能
+- 该模块主要处理NGX_HTTP_CONTENT_PHASE阶段的请求，这个阶段4个回调函数分别是 ngx_http_autoindex_handler、ngx_http_dav_handler、ngx_http_gzip_static_handler、ngx_http_index_handler、ngx_http_random_index_handler、ngx_http_static_handler。
+- ngx_http_static_module模块，这个核心做一个事情，当一个客户端的http静态页面请求发送到nginx服务端，nginx就能够调用到注册的ngx_http_static_handler函数。
+- 我们打开一个nginx服务时候,如果直接访问是一个目录,那么nginx先是查看当前目录下是否有index.html/index.html等默认显示页面，这是回调函数ngx_http_index_handler来做的事情；如果不存在默认页面，就生成该目录下文件和目录列表，这个是ngx_http_autoindex_handler函数做的事情；根据客户端静态页面请求查找对应页面文件并生成响应，这个是ngx_http_static_handler函数做的事情
+
+
 ### 4. ngx_http_static_module模块定义
 - 对于客户端http请求，为了获取更强的控制力，nginx将整个过程分为多个阶段，每一个阶段由0个或者多个回调函数处理。ngx_http_static_module就是将自己的模块功能函数ngx_http_static_init挂载到NGX_HTTP_CONTENT_PHASE阶段
 ```
