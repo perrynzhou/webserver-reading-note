@@ -1,6 +1,11 @@
 
 ## nginx进程模型
 
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/05/24 |
+
+
 ### 整体架构
 
 ![nginx-process-strucual](./../../images/nginx-process-structre.png)

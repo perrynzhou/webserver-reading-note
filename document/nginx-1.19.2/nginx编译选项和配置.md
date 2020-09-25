@@ -1,5 +1,10 @@
 ## nginx编译选项说明
 
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/05/24 |
+
+
 - 下载nginx源代码
 ```
 $ wget http://nginx.org/download/nginx-1.18.0.tar.gz

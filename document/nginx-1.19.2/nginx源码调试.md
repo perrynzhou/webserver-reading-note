@@ -1,5 +1,10 @@
 ### nginx 源码调试方法
 
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/05/24 |
+
+
 #### nginx源码下载
 
 ```

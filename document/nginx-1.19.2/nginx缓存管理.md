@@ -1,6 +1,10 @@
-
-
 ###  Cache管理进程
+
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/05/24 |
+
+
 - 如果nnginx开启了缓存功能，比如proxy cache,那么nginx还将创建另外两个cache相关的进程，一个是cache manager process，Cache管理进程;另外一个是cache loader process,缓存加载进程;cache进程不处理客户端请求，也不监控IO事件，而处理的是超时的事件，在ngx_process_events_and_timers函数执行ngx_event_expire_timers函数。相关的配置如下
   
 	```
