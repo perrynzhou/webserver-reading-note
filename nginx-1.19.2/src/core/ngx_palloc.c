@@ -118,7 +118,7 @@ ngx_reset_pool(ngx_pool_t *pool)
     pool->large = NULL;
 }
 
-
+//从内存池中P里获取size字节大小的内存，返回内存对齐的void *速度快
 void *
 ngx_palloc(ngx_pool_t *pool, size_t size)
 {
@@ -131,7 +131,7 @@ ngx_palloc(ngx_pool_t *pool, size_t size)
     return ngx_palloc_large(pool, size);
 }
 
-
+//从内存池获取size大小的内存，返回没有对齐的void *,速度略慢
 void *
 ngx_pnalloc(ngx_pool_t *pool, size_t size)
 {

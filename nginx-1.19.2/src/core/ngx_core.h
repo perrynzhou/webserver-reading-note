@@ -33,13 +33,19 @@ typedef struct ngx_udp_connection_s  ngx_udp_connection_t;
 typedef void (*ngx_event_handler_pt)(ngx_event_t *ev);
 typedef void (*ngx_connection_handler_pt)(ngx_connection_t *c);
 
-
+//执行成功，无错误
 #define  NGX_OK          0
+//执行失败,常见错误码
 #define  NGX_ERROR      -1
+//IO未准备好，需要尝试
 #define  NGX_AGAIN      -2
+//资源不可用，后端服务忙
 #define  NGX_BUSY       -3
+//执行成功，但可能还需要有后续操作
 #define  NGX_DONE       -4
+//执行成功，但未做处理
 #define  NGX_DECLINED   -5
+//发生严重的错误
 #define  NGX_ABORT      -6
 
 
