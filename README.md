@@ -1,5 +1,10 @@
 ## web服务器源码 阅读笔记
 
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/05/24 |
+
+
 ## 目标
 
 - 梳理nginx-1.19.2/openresty-1.17.8.2/tengine-2.3.2功能点
