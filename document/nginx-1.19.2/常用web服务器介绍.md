@@ -30,4 +30,4 @@
 
 ## nginx架构
 
-  ![nginx-process-strucual](./../../images/nginx_architecture_thumbnail.png)
+  ![nginx-process-strucual](../images/nginx_architecture_thumbnail.png)
