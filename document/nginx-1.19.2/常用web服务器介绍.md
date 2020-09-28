@@ -1,5 +1,10 @@
 ## 常见服务器介绍
 
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/05/24 |
+
+
 - apache服务器
   - apache在设计时候采用多进程的模型，这回导致apache在多处理器环境中性能有所下降
 - IIS
@@ -25,4 +30,4 @@
 
 ## nginx架构
 
-  ![nginx-process-strucual](./../../images/nginx_architecture_thumbnail.png)
+  ![nginx-process-strucual](../images/nginx_architecture_thumbnail.png)

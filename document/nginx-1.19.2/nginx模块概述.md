@@ -1,6 +1,11 @@
 ## nginx模块概述
 
 
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/05/24 |
+
+
 
 ### 基本介绍
 

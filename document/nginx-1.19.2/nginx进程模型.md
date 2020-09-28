@@ -1,9 +1,14 @@
 
 ## nginx进程模型
 
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/05/24 |
+
+
 ### 整体架构
 
-![nginx-process-strucual](./../../images/nginx-process-structre.png)
+![nginx-process-strucual](../images/nginx-process-structre.png)
 
 - 简单介绍
   - nginx最基本的进程有master进程和work进程，还可能会有cache相关进程。master进程和work进程之间进行通信来传递工作进程的控制信息。

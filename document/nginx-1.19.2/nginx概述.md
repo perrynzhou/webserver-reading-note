@@ -1,5 +1,10 @@
 ## nginx概述
 
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/05/24 |
+
+
 ### 开源版本nginx特性
 
 - 访问路由，通过访问路径、URL关键字、客户端IP、灰度分流等多种方式实现访问路由分配

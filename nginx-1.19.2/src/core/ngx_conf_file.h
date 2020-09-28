@@ -52,11 +52,15 @@
 #define NGX_ANY_CONF         0xFF000000
 
 
-
+//有符号整形的无效值
 #define NGX_CONF_UNSET       -1
+//无符号整数的无效值
 #define NGX_CONF_UNSET_UINT  (ngx_uint_t) -1
+//指针类型的无效值
 #define NGX_CONF_UNSET_PTR   (void *) -1
+//size_t类型的无效值
 #define NGX_CONF_UNSET_SIZE  (size_t) -1
+//毫秒类型的无效值
 #define NGX_CONF_UNSET_MSEC  (ngx_msec_t) -1
 
 

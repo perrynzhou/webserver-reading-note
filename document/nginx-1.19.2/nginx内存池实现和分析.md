@@ -1,5 +1,11 @@
 
 ## nginx内存池实现和分析
+
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/05/24 |
+
+
 ### 背景
 
 - 目的是分析nginx的内存池模块，了解内存池相关知识
