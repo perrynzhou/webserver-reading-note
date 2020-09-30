@@ -65,7 +65,7 @@ $ ls
 autoconf.err  Makefile  nginx  nginx.8  ngx_auto_config.h  ngx_auto_headers.h  ngx_modules.c  ngx_modules.o  src
 [perrynzhou@linuxzhou ~/Debug/nginx-1.19.2/objs]$ 
 ```
-- 模块信息
+- 模块信息,ngx_modules[]中模块的次序决定了该模块在nginx执行的顺序。当一个请求同时符合多个模块的处理规则时，nginx将按照ngx_modules[]中的顺序选择最靠前的模块优先处理。对于http过滤模块执行顺序正好相反，在http框架初始化时，在 ngx_modules[]中将过滤模块按照先后顺序向过滤链表中添加，但是每次都是添加到链表的头部，因此ngx_modules[]中越是靠后的过滤模块却会被首先处理。
 ```
 //每一个模块处理的类型都是ngx_module_t
 ngx_module_t *ngx_modules[] = {
