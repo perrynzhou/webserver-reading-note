@@ -29,8 +29,43 @@ $ configure 后面可以跟着很多编译选项
     ```
   - --add-module=path,指定nginx第三方模块的源代码，这样nginx可以把第三方模块像自带模块一样进行编译，这个选项可以在configure后面出现任意多次，从而达到一次为nginx添加任意多的第三方模块
   - --add-dynamic-module=patj,这个功能和--add-module功能相同，--add-dynamic-module分离nginx主可执行程序和模块，可以在启动时候灵活组合动态加载，方便、nginx更新，使用"make modules"只编译变动模块，而nginx核心代码无须重新编译
-
+- 配置说明
+  - 全局快
+    - 全局快默认是从配置文件开始到events之间的一部分内容，主要设置一些影响nginx服务器整体运行的配置指令,这些指令作用域是nginx服务器全局，常用到的配置如nginx服务器的用户组、允许生成的worker-process数。nginx服务的pid存放路径、日志类型和存放路径、配置文件引入
+  - events块
+    - 只要配置nginx服务器与用户之间的网络连接,常用到的设置包括选取那种哪种事件驱动模型 处理连接请求、每个worker可以同时支持的最大连接数
+  - http块
+    - http块是nginx服务中重要部分，代理、缓存和日志定义大部分功能的配置就在http块。http块中可以包括自己的全局快、server块,server块又可以包括location块。常用的http块的配置有文件引入、MIME-Type定义、日志自定义、是否使用sendfile传输文件、连接超时、单连接请求上限等
+  - server块
+    - server块用于配置虚拟主机.
+  - location块
+    - 每个server可以包括location块，location块主要作用是，基于nginx服务收到的请求字符串(server_name/uri-string)，除对虚拟主机名称之外的字符串进行匹配，对特定的请求进行处理。
 - 基本配置
+  - 配置运行用户组
+  ```
+  user1 user [group];
+  ```
+  - nginx进程pid存放路径
+  ```
+  pid {file_path};
+  ```
+  - 配置每个work进程的最大连接数
+  ```
+  worker_connetions number;
+  ```
+  - 配置连接超时时间
+  ```
+  keepalive_timeout {timeout} {[header_timeout]};
+  //服务器保持连接的时间设置 为120s,发给用户端的应答报文头部中的keep-alive域的超时时间为100s
+  keepalive_timeout 120s  100s;
+  ```
+  - 配置sendfile方式传输文件
+  ```
+  //设置sendfile生效或者禁用，默认是禁用的
+  sendfile on|off;
+  //每个worker进程每次调用sendfile传输的最大数据量不超过这个设置的这个值；如果这个值配置为0，表示没有限制
+  senfile_max_chunk size;
+  ```
   - 进程管理相关配置(全局域配置)
     - worker_processes {number}|auto,设置nginx能够启动的worker的进程数目，通常nginx的worker进程和CPU核心数相等时能获取最佳的性能，这个配置一般需要和worker_cpu_affinity指令配合使用
     - worker_cpu_affinity auto | {cpumask},指定worker进程运行在某个cpu核心上。
