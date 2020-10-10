@@ -19,18 +19,23 @@ ngx_pool_t *
 ngx_create_pool(size_t size, ngx_log_t *log)
 {
     ngx_pool_t  *p;
-
+    //按照16个字节对齐申请内存
     p = ngx_memalign(NGX_POOL_ALIGNMENT, size, log);
     if (p == NULL) {
         return NULL;
     }
-
+    //初始化当前ngx_pool_data_t d
+    //ngx_pool_data_t->last指向可用内存的开始地址
     p->d.last = (u_char *) p + sizeof(ngx_pool_t);
+    //ngx_pool_data_t->end指向申请总内存的地址
     p->d.end = (u_char *) p + size;
+    //由于是初始化，所以当前 ngx_pool_data_t->next为空
     p->d.next = NULL;
     p->d.failed = 0;
 
+    //设置可用内存的大小，应该去掉ngx_pool_t的大小
     size = size - sizeof(ngx_pool_t);
+    //nginx_pool中申请的最大内存容量为pagesize-1,linux下默认是4K；
     p->max = (size < NGX_MAX_ALLOC_FROM_POOL) ? size : NGX_MAX_ALLOC_FROM_POOL;
 
     p->current = p;

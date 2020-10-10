@@ -25,7 +25,7 @@
   - [9.nginx模块介绍](./document/nginx-1.19.2/nginx模块概述.md)
 - 模块原理和分析
   - [1.ngx_http_static_module原理和分析（待更新）](./document/nginx-1.19.2/ngx_http_static_module原理和分析.md)
-
+  - [1.ngx_core_module做了什么](./document/nginx-1.19.2/ngx_core_module做了什么.md)
 
 ## openresty
 
