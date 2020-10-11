@@ -18,11 +18,12 @@
   - [2.nginx内存池实现和分析](./document/nginx-1.19.2/nginx内存池实现和分析.md)
   - [3.nginx模块开发](./document/nginx-1.19.2/nginx模块开发.md)
   - [4.nginx源码调试](./document/nginx-1.19.2/nginx源码调试.md)
-  - [5.nginx进程模型](./document/nginx-1.19.2/nginx进程模型.md)
+  - [5.nginx服务器架构探讨](./document/nginx-1.19.2/nginx服务器架构探讨.md)
   - [6.nginx缓存管理进程](./document/nginx-1.19.2/nginx缓存管理.md)
   - [7.nginx缓存加载进程](./document/nginx-1.19.2/缓存加载进程.md)
   - [8.nginx编译和配置](./document/nginx-1.19.2/nginx编译选项和配置.md)
   - [9.nginx模块介绍](./document/nginx-1.19.2/nginx模块概述.md)
+  - [10.事件驱动模型](./document/nginx-1.19.2/事件驱动模型.md)
 - 模块原理和分析
   - [1.ngx_http_static_module原理和分析（待更新）](./document/nginx-1.19.2/ngx_http_static_module原理和分析.md)
   - [1.ngx_core_module做了什么](./document/nginx-1.19.2/ngx_core_module做了什么.md)
