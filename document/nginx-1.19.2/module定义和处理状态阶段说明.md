@@ -1,6 +1,8 @@
-## ngx_http_static_module原理和分析
+## module定义和处理状态阶段说明
 
-
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/10/1 |
 ### 1.调试环境
 
 ```
