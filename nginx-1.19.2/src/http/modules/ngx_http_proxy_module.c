@@ -844,7 +844,7 @@ static ngx_path_init_t  ngx_http_proxy_temp_path = {
     ngx_string(NGX_HTTP_PROXY_TEMP_PATH), { 1, 2, 0 }
 };
 
-
+//真正的nginx的方向代理(upstream)处理逻辑
 static ngx_int_t
 ngx_http_proxy_handler(ngx_http_request_t *r)
 {
@@ -894,11 +894,15 @@ ngx_http_proxy_handler(ngx_http_request_t *r)
     u->caches = &pmcf->caches;
     u->create_key = ngx_http_proxy_create_key;
 #endif
-
+    //根据nginx与后端服务器通信协议，将客户端的http请求信息转换为对应的发送到后端真是服务器的真实请求
     u->create_request = ngx_http_proxy_create_request;
+    //对交互重新初始化，当nginx发现后端服务器出现无法正常完成请求，需要尝试请求另外一台后端服务器时会调用该函数
     u->reinit_request = ngx_http_proxy_reinit_request;
+    //根据nginx与后端服务器通信协议，将后端服务器返回的头部信息转换为客户端响应的http响应头
     u->process_header = ngx_http_proxy_process_status_line;
+    //异常结束与后端服务器的交互后就会调用，大部分这个函数仅仅是记录下日志
     u->abort_request = ngx_http_proxy_abort_request;
+    //正常结束与后端服务器的交互，比如剩余待取数据长度为0或者读到EOF等，之后就调用这个函数
     u->finalize_request = ngx_http_proxy_finalize_request;
     r->state = 0;
 
@@ -919,8 +923,9 @@ ngx_http_proxy_handler(ngx_http_request_t *r)
 
     u->pipe->input_filter = ngx_http_proxy_copy_filter;
     u->pipe->input_ctx = r;
-
+    //根据前面获得的后端服务器返回的头部信息，为进一步处理后端服务器将返回的响应体做初始化工作
     u->input_filter_init = ngx_http_proxy_input_filter_init;
+    //正式处理后端服务器返回响应体
     u->input_filter = ngx_http_proxy_non_buffered_copy_filter;
     u->input_filter_ctx = r;
 

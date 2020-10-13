@@ -25,8 +25,11 @@
   - [9.nginx模块介绍](./document/nginx-1.19.2/nginx模块概述.md)
   - [10.事件驱动模型](./document/nginx-1.19.2/事件驱动模型.md)
 - 模块原理和分析
-  - [1.ngx_http_static_module原理和分析（待更新）](./document/nginx-1.19.2/ngx_http_static_module原理和分析.md)
-  - [1.ngx_core_module做了什么](./document/nginx-1.19.2/ngx_core_module做了什么.md)
+  - [1.module定义和处理状态阶段说明](./document/nginx-1.19.2/module定义和处理状态阶段说明.md)
+
+- 源代码注释
+  - [1.upstream处理逻辑ngx_http_proxy_handler函数说明](https://github.com/perrynzhou/webserver-note/tree/perryn/dev/nginx-1.19.2/src/http/modules/ngx_http_proxy_module.c#L849)
+
 
 ## openresty
 
