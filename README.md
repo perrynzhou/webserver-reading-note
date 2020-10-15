@@ -27,6 +27,8 @@
 - 模块原理和分析
   - [1.module定义和处理状态阶段说明](./document/nginx-1.19.2/module定义和处理状态阶段说明.md)
 
+- 流程分析
+  - [1.http处理全过程追踪](./document/nginx-1.19.2/http处理全过程追踪.md)
 - 源代码注释
   - [1.upstream处理逻辑ngx_http_proxy_handler函数说明](https://github.com/perrynzhou/webserver-note/tree/perryn/dev/nginx-1.19.2/src/http/modules/ngx_http_proxy_module.c#L849)
 
