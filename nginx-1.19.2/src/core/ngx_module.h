@@ -232,9 +232,9 @@ struct ngx_module_s {
 
     ngx_uint_t            version;
     const char           *signature;
-    //当前模块的私有数据，可以表示任何的数据
+    //当前模块的私有数据，特定模块的专有数据，通常是函数指针
     void                 *ctx;
-    //当前模块配置项解析数组
+    //当前模块配置项解析数组，保存本模块 使用所有配置指令的信息，配置解析时候nginx会是使用它查找指令是否 可以被模块处理
     ngx_command_t        *commands;
     //模块类型
     ngx_uint_t            type;
