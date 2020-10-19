@@ -13,24 +13,20 @@
 
 
 ## nginx源码
-- 进程架构
-  - [1.常用web服务器介绍](./document/nginx-1.19.2/常用web服务器介绍.md)
-  - [2.nginx内存池实现和分析](./document/nginx-1.19.2/nginx内存池实现和分析.md)
-  - [3.nginx模块开发](./document/nginx-1.19.2/nginx模块开发.md)
-  - [4.nginx源码调试](./document/nginx-1.19.2/nginx源码调试.md)
-  - [5.nginx服务器架构探讨](./document/nginx-1.19.2/nginx服务器架构探讨.md)
-  - [6.nginx缓存管理进程](./document/nginx-1.19.2/nginx缓存管理.md)
-  - [7.nginx缓存加载进程](./document/nginx-1.19.2/缓存加载进程.md)
-  - [8.nginx编译和配置](./document/nginx-1.19.2/nginx编译选项和配置.md)
-  - [9.nginx模块介绍](./document/nginx-1.19.2/nginx模块概述.md)
-  - [10.事件驱动模型](./document/nginx-1.19.2/事件驱动模型.md)
-- 模块原理和分析
-  - [1.module定义和处理状态阶段说明](./document/nginx-1.19.2/module定义和处理状态阶段说明.md)
-
-- 流程分析
-  - [1.http处理全过程追踪](./document/nginx-1.19.2/http处理全过程追踪.md)
-- 源代码注释
-  - [1.upstream处理逻辑ngx_http_proxy_handler函数说明](https://github.com/perrynzhou/webserver-note/tree/perryn/dev/nginx-1.19.2/src/http/modules/ngx_http_proxy_module.c#L849)
+  - [常用web服务器介绍](./document/nginx-1.19.2/常用web服务器介绍.md)
+  - [nginx内存池实现和分析](./document/nginx-1.19.2/nginx内存池实现和分析.md)
+  - [nginx模块开发](./document/nginx-1.19.2/nginx模块开发.md)
+  - [nginx源码调试](./document/nginx-1.19.2/nginx源码调试.md)
+  - [nginx服务器架构探讨](./document/nginx-1.19.2/nginx服务器架构探讨.md)
+  - [nginx缓存管理进程](./document/nginx-1.19.2/nginx缓存管理.md)
+  - [nginx缓存加载进程](./document/nginx-1.19.2/缓存加载进程.md)
+  - [nginx编译和配置](./document/nginx-1.19.2/nginx编译选项和配置.md)
+  - [nginx模块介绍](./document/nginx-1.19.2/nginx模块概述.md)
+  - [事件驱动模型](./document/nginx-1.19.2/事件驱动模型.md)
+  - [module定义和说明](./document/nginx-1.19.2/module定义和说明.md)
+  - [http和tcp-udp处理状态阶段说明](./document/nginx-1.19.2/http和tcp-udp处理状态阶段说明.md)  
+  - [http处理全过程追踪](./document/nginx-1.19.2/http处理全过程追踪.md)
+  - [upstream处理逻辑ngx_http_proxy_handler函数说明](https://github.com/perrynzhou/webserver-note/tree/perryn/dev/nginx-1.19.2/src/http/modules/ngx_http_proxy_module.c#L849)
 
 
 ## openresty
