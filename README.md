@@ -14,12 +14,12 @@
 ## tcp/ip
 
 ### tcp/ip协议
-- [1.tcp协议初探](./document/tcp-ip/tcp协议初探.md)
-- [2.tcp连接和关闭](./document/tcp-ip/tcp连接和关闭.md)
-- [3.tcp选项和路径MTU](./document/tcp-ip/tcp选项和路径MTU.md)
-- [4.tcp状态图](./document/tcp-ip/tcp状态转换图.md)
-- [5.tcp超时和重传](./document/tcp-ip/tcp超时和重传.md)
-- [6.TCP三次握手和四次挥手简单分析](./document/tcp-ip/TCP三次握手和四次挥手简单分析.md)
+- [tcp协议初探](./document/tcp-ip/tcp协议初探.md)
+- [tcp连接和关闭](./document/tcp-ip/tcp连接和关闭.md)
+- [tcp选项和路径MTU](./document/tcp-ip/tcp选项和路径MTU.md)
+- [tcp状态图](./document/tcp-ip/tcp状态转换图.md)
+- [tcp超时和重传](./document/tcp-ip/tcp超时和重传.md)
+- [TCP三次握手和四次挥手简单分析](./document/tcp-ip/TCP三次握手和四次挥手简单分析.md)
 
 
 ### tcp/ip编程
