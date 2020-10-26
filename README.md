@@ -40,7 +40,7 @@
   - [http和tcp-udp处理状态阶段说明](./document/nginx-1.19.2/http和tcp-udp处理状态阶段说明.md)  
   - [http处理全过程追踪](./document/nginx-1.19.2/http处理全过程追踪.md)
   - [upstream处理逻辑ngx_http_proxy_handler函数说明](https://github.com/perrynzhou/webserver-note/tree/perryn/dev/nginx-1.19.2/src/http/modules/ngx_http_proxy_module.c#L849)
-  - [nginx请求处理前需要做哪些事情?](./document/nginx-1.19.2/nginx请求处理前需要做哪些事情?.md)
+  - [nginx请求处理前需要做哪些事情?](./document/nginx-1.19.2/nginx请求处理前需要做哪些事情.md)
 
 ## openresty
 
