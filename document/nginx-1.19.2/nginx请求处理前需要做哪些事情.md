@@ -1,10 +1,103 @@
 ## nginx请求处理前需要做哪些事情?
 
-| author | update |
-| ------ | ------ |
+| author               | update     |
+| -------------------- | ---------- |
 | perrynzhou@gmail.com | 2020/10/26 |
 
 ### nginx如何处理http请求?
+
+- nginx处理请求按照如下的步骤:
+
+  - 监听端口，接受客户端的连接请求
+
+  - 读取请求头，包括请求行和请求头
+
+  - 读取或者丢弃掉请求体
+
+  - 生成和发送响应头
+
+  - 生成和发送响应体
+
+- nginx针对http的请求流程大致如下：
+
+  - 监听端口，设置回调函数ngx_http_init_connection()
+
+  - 接受客户端连接，调用nginx_http_wait_request_handler()函数
+
+  - 调用ngx_http_create_request创建请求对象
+
+  - 接受数据，调用ngx_http_process_request_line解析请求行
+
+  - 请求行接受完毕，调用ngx_http_process_request_headers()解析请求头
+
+  - 请求头接受完毕后，调用ngx_http_process_request函数设置异步读写函数。
+
+  - 调用ngx_http_handler开始真正的请求处理
+
+  - 调用ngx_http_core_run_phasesa按照http阶段处理请求，这是http框架的核心，大部分http模块都在这里运行，最终产生响应内容
+
+  - 调用ngx_http_send_header函数发送响应头，从函数指针ngx_http_top_header_filter开始，通过header filter模块链表过滤处理模块，最终发送处理过的响应头
+
+  - 调用ngx_http_output_filter发送响应体，从哈数指针ngx_http_top_body_filter开始，通过body filter模块链过滤处理，最终也发送处理过的响应体
+
+    ```
+    void ngx_http_init_connection(ngx_connection_t *c)
+    {
+    	rev = c->read;
+    	rev->handler = ngx_http_wait_request_handler;
+    }
+    
+    static void ngx_http_wait_request_handler(ngx_event_t *rev)
+    {
+    	ngx_http_create_request(c);
+    	ngx_http_process_request_line(rev);
+    }
+    
+    static void ngx_http_process_request_line(ngx_event_t *rev)
+    {
+     for ( ;; ) {
+      	if (rc == NGX_AGAIN) {
+                n = ngx_http_read_request_header(r);
+    
+                    break;
+                
+            }
+              rc = ngx_http_parse_request_line(r, r->header_in);
+              if (rc == NGX_OK) {
+              rev->handler = ngx_http_process_request_headers;
+              ngx_http_process_request_headers(rev);
+    
+              }
+        
+     }
+    }
+    
+    static void ngx_http_process_request_headers(ngx_event_t *rev)
+    {
+     	for ( ;; ) {
+      		if (rc == NGX_AGAIN) {
+      				n = ngx_http_read_request_header(r);
+      		}
+      		c = ngx_http_parse_header_line(r, r->header_in,cscf->underscores_in_headers);
+      		if (rc == NGX_HTTP_PARSE_HEADER_DONE) {
+      			rc = ngx_http_process_request_header(r);
+      			if (rc != NGX_OK) {
+      				break;
+       			}
+       			ngx_http_process_request(r) {
+       			 	ngx_http_handler(r) {
+        					ngx_http_core_run_phases(r) {
+        					}
+       			 	}
+       			 }
+         	}
+    	}
+    	ngx_http_run_posted_requests(c);
+    }
+    ```
+
+    
+
 - ngx_http_process_request_line:处理客户端发送过来的http请求头中的request-line.这个过程可以分为三步,读取read-line、解析 read-line、存储解析结果并设置相关的值。ngx_http_process_request_line需要解析http基本合法性的请求头和http其他的请求头信息。ngx_http_process_request_line执行逻辑如下
 
 ```
@@ -113,7 +206,56 @@ static void ngx_http_process_request_line(ngx_event_t *rev)
  }
 }
 ```
+
+### 调试过程
+
+- 使用wget命令直接请求nginx 80端口，方便调试需要关闭nginx的缓存功能
+
+```
+  location / {
+    add_header Last-Modified $date_gmt;
+    add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+    if_modified_since off;
+    expires off;
+    etag off;
+  }
+```
+
+- gdb步骤
+```
+root@172.25.78.25 ~ $ ps -ef|grep nginx |grep -v nginx
+root@172.25.78.25 ~ $ ps -ef|grep nginx |grep -v grep
+root     178914      1  0 08:08 ?        00:00:00 nginx: master process /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
+nobody   178918 178914  0 08:08 ?        00:00:00 nginx: worker process
+root@172.25.78.25 ~ $ gdb /usr/local/nginx/sbin/nginx 
+(gdb) attach  178918
+(gdb) br ngx_http_init_connection
+(gdb) br ngx_http_wait_request_handler
+(gdb) br ngx_http_process_request_line
+(gdb) br ngx_http_process_request_headers
+(gdb) br ngx_http_parse_header_line
+(gdb) br ngx_http_process_request
+(gdb) c
+Continuing.
+(gdb) bt
+#0  ngx_http_core_run_phases (r=0x14cde90) at src/http/ngx_http_core_module.c:862
+#1  0x00000000004541a8 in ngx_http_handler (r=0x14cde90) at src/http/ngx_http_core_module.c:851
+#2  0x0000000000461cfb in ngx_http_process_request (r=0x14cde90) at src/http/ngx_http_request.c:2078
+#3  0x00000000004609a3 in ngx_http_process_request_headers (rev=0x14e7bd0) at src/http/ngx_http_request.c:1480
+#4  0x000000000045ff1b in ngx_http_process_request_line (rev=0x14e7bd0) at src/http/ngx_http_request.c:1151
+#5  0x000000000045f65b in ngx_http_wait_request_handler (rev=0x14e7bd0) at src/http/ngx_http_request.c:500
+#6  0x000000000044eac0 in ngx_epoll_process_events (cycle=0x14bf230, timer=60000, flags=1) at src/event/modules/ngx_epoll_module.c:901
+#7  0x000000000043f5d5 in ngx_process_events_and_timers (cycle=0x14bf230) at src/event/ngx_event.c:247
+#8  0x000000000044c68f in ngx_worker_process_cycle (cycle=0x14bf230, data=0x0) at src/os/unix/ngx_process_cycle.c:740
+#9  0x0000000000449652 in ngx_spawn_process (cycle=0x14bf230, proc=0x44c5e1 <ngx_worker_process_cycle>, data=0x0, name=0x4d0cef "worker process", respawn=-3)
+    at src/os/unix/ngx_process.c:199
+#10 0x000000000044b8c0 in ngx_start_worker_processes (cycle=0x14bf230, n=1, type=-3) at src/os/unix/ngx_process_cycle.c:349
+#11 0x000000000044b0e6 in ngx_master_process_cycle (cycle=0x14bf230) at src/os/unix/ngx_process_cycle.c:130
+#12 0x000000000040bc5a in main (argc=3, argv=0x7ffff538f258) at src/core/nginx.c:382
+```
+
 ### http请求头处理的gdb信息
+
 ```
 Breakpoint 1, ngx_http_read_request_header (r=0xde9e90) at src/http/ngx_http_request.c:1513
 1513        c = r->connection;
