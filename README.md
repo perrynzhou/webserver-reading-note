@@ -43,6 +43,7 @@
   - [nginx请求处理前需要做哪些事情?](./document/nginx-1.19.2/nginx请求处理前需要做哪些事情.md)
 
 ## openresty
+  - [OpenResty基本介绍](./document/openresty-1.17.8.2/OpenResty基本介绍.md)
   - [OpenResty源码编译](./document/openresty-1.17.8.2/OpenResty源码编译.md)
 
 
