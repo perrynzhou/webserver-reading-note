@@ -1,6 +1,9 @@
 
 ## ngx-hello-world模块编译和测试
 
+| author | update |
+| ------ | ------ |
+| perrynzhou@gmail.com | 2020/10/28 |
 
 - [ngx_http_hello_world_module源代码](./ngx_http_hello_world_module.c)
 
