@@ -105,14 +105,16 @@ static ngx_int_t ngx_http_static_init(ngx_conf_t *cf)
 
 - ngx_http_send_header 函数分析
   - ngx_http_send_header根据nginx的内置或者配置来过滤请求响应的请求头,执行链路的总体分析
-   	```
+  
+    ```
    	ngx_http_send_header:
    		ngx_http_top_header_filter(ngx_http_not_modified_header_filter)
    		/*****多个filter函数*****/
    		ngx_http_next_header_filter
    		ngx_http_header_filter
    	 		ngx_http_write_filter
-  ```
+
+    ```
 
   - 每个链路上的具体函数指针说明
 
@@ -142,12 +144,14 @@ static ngx_int_t ngx_http_static_init(ngx_conf_t *cf)
   - ngx_http_output_filter用于过滤请求体，第一次请求ngx_http_top_body_filter指针的函数，中间经过多次ngx_http_next_body_filter，最后达到ngx_http_write_filter。
 
     ```
+
     ngx_http_output_filter:
     	ngx_http_top_body_filter
     	//一个或者多个body filter函数
     	ngx_http_next_body_filter
     	.....................
     	ngx_http_write_filter
+    
     ```
 
-       - body的filter函数最终执行到ngx_http_write_filter函数，调用sendfile传输文件，至此整个静态资源的请求完成
+  - body的filter函数最终执行到ngx_http_write_filter函数，调用sendfile传输文件，至此整个静态资源的请求完成
