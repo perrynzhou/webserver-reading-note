@@ -369,13 +369,17 @@ typedef void (*ngx_http_event_handler_pt)(ngx_http_request_t *r);
 
 
 struct ngx_http_request_s {
+    //http的ascii码
     uint32_t                          signature;         /* "HTTP" */
-
+    //请求连接
     ngx_connection_t                 *connection;
-
+    //请求处理的环境数据
     void                            **ctx;
+    //main层次的配置信息数组
     void                            **main_conf;
+    //server层面的配置信息数组
     void                            **srv_conf;
+    //location层面的配置信息数组
     void                            **loc_conf;
 
     ngx_http_event_handler_pt         read_event_handler;
@@ -388,7 +392,7 @@ struct ngx_http_request_s {
     ngx_http_upstream_t              *upstream;
     ngx_array_t                      *upstream_states;
                                          /* of ngx_http_upstream_state_t */
-
+    //内存池
     ngx_pool_t                       *pool;
     ngx_buf_t                        *header_in;
 
@@ -398,6 +402,7 @@ struct ngx_http_request_s {
     ngx_http_request_body_t          *request_body;
 
     time_t                            lingering_time;
+    //请求处理的开始时间
     time_t                            start_sec;
     ngx_msec_t                        start_msec;
 
@@ -420,8 +425,9 @@ struct ngx_http_request_s {
     ngx_http_postponed_request_t     *postponed;
     ngx_http_post_subrequest_t       *post_subrequest;
     ngx_http_posted_request_t        *posted_requests;
-
+    //当前处理阶段的索引号
     ngx_int_t                         phase_handler;
+    //内容处理的函数指针
     ngx_http_handler_pt               content_handler;
     ngx_uint_t                        access_code;
 
