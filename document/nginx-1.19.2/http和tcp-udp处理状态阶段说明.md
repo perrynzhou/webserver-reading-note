@@ -52,3 +52,22 @@ typedef enum {
 - preread阶段,数据预读阶段，将TCP/UDP会话数据的初始字节读入预读缓冲区，以允许ngx_stream_ssl_preread_stream之类模块在处理之前分析数据
 - content阶段,数据处理阶段，将tcp/udp会话数据代理到上游服务器或将模块ngx_stream_return_module指定的值返回客户端
 - log阶段，记录客户端会话处理结果的最后阶段，模块ngx_stream_log_module模块在这个阶段被调用
+
+```
+typedef enum {
+   // post-accept阶段,接受客户端连接请求后的第一个阶段，模块ngx_stream_realip_module在这个阶段被调用
+    NGX_STREAM_POST_ACCEPT_PHASE = 0,
+    // pre-access阶段，访问处理阶段，模块ngx_stream_limit_conn_module在这个阶段被调用
+    NGX_STREAM_PREACCESS_PHASE,
+    // access阶段,访问处理阶段，模块ngx_stream_access_module在这个阶段被调用
+    NGX_STREAM_ACCESS_PHASE,
+    // ssl阶段，TLS/SSL处理阶段,模块ngx_stream_ssl_module在这个阶段被调用
+    NGX_STREAM_SSL_PHASE,
+    // preread阶段,数据预读阶段，将TCP/UDP会话数据的初始字节读入预读缓冲区，以允许ngx_stream_ssl_preread_stream之类模块在处理之前分析数据
+    NGX_STREAM_PREREAD_PHASE,
+    // content阶段,数据处理阶段，将tcp/udp会话数据代理到上游服务器或将模块ngx_stream_return_module指定的值返回客户端
+    NGX_STREAM_CONTENT_PHASE,
+    // log阶段，记录客户端会话处理结果的最后阶段，模块ngx_stream_log_module模块在这个阶段被调用
+    NGX_STREAM_LOG_PHASE
+} ngx_stream_phases;
+```
