@@ -41,7 +41,10 @@
   - [http处理全过程追踪](./document/nginx-1.19.2/http处理全过程追踪.md)
   - [upstream处理逻辑ngx_http_proxy_handler函数说明](https://github.com/perrynzhou/webserver-note/tree/perryn/dev/nginx-1.19.2/src/http/modules/ngx_http_proxy_module.c#L849)
   - [nginx请求处理前需要做哪些事情?](./document/nginx-1.19.2/nginx请求处理前需要做哪些事情.md)
+  - [nginx响应处理简单分析](./document/nginx-1.19.2/nginx响应处理处理简单分析.md)
   - [ngx-hello-world模块编译和测试](./document/nginx-1.19.2/ngx-hello-world模块编译和测试.md)
+
+
 ## openresty
   - [OpenResty基本介绍](./document/openresty-1.17.8.2/OpenResty基本介绍.md)
   - [OpenResty源码编译](./document/openresty-1.17.8.2/OpenResty源码编译.md)
