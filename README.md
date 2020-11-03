@@ -43,6 +43,8 @@
   - [nginx请求处理前需要做哪些事情?](./document/nginx-1.19.2/nginx请求处理前需要做哪些事情.md)
   - [nginx响应处理简单分析](./document/nginx-1.19.2/nginx响应处理处理简单分析.md)
   - [ngx-hello-world模块编译和测试](./document/nginx-1.19.2/ngx-hello-world模块编译和测试.md)
+  - [nginx中tcp反向代理.md](./document/nginx-1.19.2/2020-11-03-nginx中tcp反向代理.md)
+  - [nginx框架功能介绍.md（持续更新）](./document/nginx-1.19.2/2020-11-03-nginx框架功能介绍.md)
 
 
 ## openresty
