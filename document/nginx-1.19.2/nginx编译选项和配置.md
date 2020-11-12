@@ -30,7 +30,7 @@ $ configure 后面可以跟着很多编译选项
   - --add-module=path,指定nginx第三方模块的源代码，这样nginx可以把第三方模块像自带模块一样进行编译，这个选项可以在configure后面出现任意多次，从而达到一次为nginx添加任意多的第三方模块
   - --add-dynamic-module=patj,这个功能和--add-module功能相同，--add-dynamic-module分离nginx主可执行程序和模块，可以在启动时候灵活组合动态加载，方便、nginx更新，使用"make modules"只编译变动模块，而nginx核心代码无须重新编译
 - 配置说明
-  - 全局快
+  - main块
     - 全局快默认是从配置文件开始到events之间的一部分内容，主要设置一些影响nginx服务器整体运行的配置指令,这些指令作用域是nginx服务器全局，常用到的配置如nginx服务器的用户组、允许生成的worker-process数。nginx服务的pid存放路径、日志类型和存放路径、配置文件引入
   - events块
     - 只要配置nginx服务器与用户之间的网络连接,常用到的设置包括选取那种哪种事件驱动模型 处理连接请求、每个worker可以同时支持的最大连接数
@@ -86,7 +86,9 @@ $ configure 后面可以跟着很多编译选项
     error_log file|sterrr level;
     ```
     - worker_connections,配置worker进程的最大连接数，默认是1024
-
+	- work_rlimit_nofile number,配置工作进程的最大文件数，吸怪配置无需管理进程重启
+	- worker_priority number,全局配置，定义工作进程优先级,取值范围-20~20之间
+	- thread_pool name threads={number} [max_queue={number}],配置工作进程中多线程读写的线程池，这个指令从1.7.11版本出现,定义工作进程对文件读和写时用到的线程池
 - http配置
   - http配置模板
   ```
