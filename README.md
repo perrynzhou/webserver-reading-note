@@ -50,6 +50,6 @@
 ## openresty
   - [OpenResty基本介绍](./document/openresty-1.17.8.2/OpenResty基本介绍.md)
   - [OpenResty源码编译](./document/openresty-1.17.8.2/OpenResty源码编译.md)
-
+ - [init_by_lua指令说明.md](./document/openresty-1.17.8.2/2020-11-17-init_by_lua指令说明.md)
 
 ## tengine
