@@ -2295,6 +2295,12 @@ ngx_http_gzip_quantity(u_char *p, u_char *last)
 #endif
 
 
+// ngx_http_request_t *r 当前请求对象
+// ngx_str_t *uri 子请求的uri,就是本server块内某个location的名字
+// ngx_str_t *args 子请求的uri参数们可以为空
+// ngx_http_request_t **psr 输出参数,传出创建好的子请求
+// ngx_http_post_subrequest_t *ps，子请求结束时候回调函数
+// ngx_uint_t flags,标志位,定制子请求的某些行为，常用的是NGX_HTTP_SUBREQUEST_IN_MEMORY
 ngx_int_t
 ngx_http_subrequest(ngx_http_request_t *r,
     ngx_str_t *uri, ngx_str_t *args, ngx_http_request_t **psr,
@@ -2404,6 +2410,8 @@ ngx_http_subrequest(ngx_http_request_t *r,
     sr->parent = r;
     sr->post_subrequest = ps;
     sr->read_event_handler = ngx_http_request_empty_handler;
+
+    // 核心设置子请求的处理函数
     sr->write_event_handler = ngx_http_handler;
 
     sr->variables = r->variables;
@@ -2474,7 +2482,7 @@ ngx_http_subrequest(ngx_http_request_t *r,
 
         ngx_http_update_location_config(sr);
     }
-
+    // 加入待执行的请求链表中
     return ngx_http_post_request(sr, NULL);
 }
 

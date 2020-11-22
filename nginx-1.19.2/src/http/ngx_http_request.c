@@ -2376,6 +2376,9 @@ ngx_http_request_handler(ngx_event_t *ev)
 }
 
 
+//  ngx_http_run_posted_requests,是驱动子请求运行的关键函数，它主要是遍历主请求的posted_requests成员，也就是待执行请求链表
+//然后执行请求的write_event_handler的回调函数，write_event_handler已经设置为ngx_http_handler。在处理完一个请求后,ngx_http_run_posted_requests
+//会把请求从链表中移除，随着请求的不断被处理,最终链表会被清空
 void
 ngx_http_run_posted_requests(ngx_connection_t *c)
 {
@@ -2403,7 +2406,7 @@ ngx_http_run_posted_requests(ngx_connection_t *c)
 
         ngx_log_debug2(NGX_LOG_DEBUG_HTTP, c->log, 0,
                        "http posted request: \"%V?%V\"", &r->uri, &r->args);
-
+        // 这里的write_event_handler设置的是ngx_http_handler
         r->write_event_handler(r);
     }
 }
@@ -2431,6 +2434,9 @@ ngx_http_post_request(ngx_http_request_t *r, ngx_http_posted_request_t *pr)
     return NGX_OK;
 }
 
+
+//  当请求或者子请求结束时候，调回调用ngx_http_finalize_request函数，它是nginx的http处理核心函数之一,内部逻辑比较复杂
+//当子请求处理完毕时候,并把父请求加入待处理请求链表,等待引擎调度从而激活
 
 void
 ngx_http_finalize_request(ngx_http_request_t *r, ngx_int_t rc)

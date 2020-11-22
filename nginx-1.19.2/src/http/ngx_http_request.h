@@ -420,10 +420,14 @@ struct ngx_http_request_s {
     ngx_str_t                         schema;
 
     ngx_chain_t                      *out;
+    //主请求
     ngx_http_request_t               *main;
+    //请求所属父请求
     ngx_http_request_t               *parent;
     ngx_http_postponed_request_t     *postponed;
+    //子请求回调函数指针
     ngx_http_post_subrequest_t       *post_subrequest;
+    //等待执行的请求链表
     ngx_http_posted_request_t        *posted_requests;
     //当前处理阶段的索引号
     ngx_int_t                         phase_handler;
