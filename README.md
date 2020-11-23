@@ -22,9 +22,13 @@
 - [TCP三次握手和四次挥手简单分析](./document/tcp-ip/TCP三次握手和四次挥手简单分析.md)
 - [keep-alive机制.md](./document/tcp-ip/2020-11-12-keep-alive机制.md)
 - [理解TCP写操作.md](./document/tcp-ip/2020-11-16-理解TCP写操作.md)
+
+
 ### tcp/ip编程
 - [udp编程初探](./document/tcp-ip/udp编程初探.md)
 - [tcp是一种流式协议](./document/tcp-ip/tcp是一种流式协议.md)
+- [TCP协议中的TIME_WAIT.md](./document/tcp-ip/2020-11-23-TCP协议中的TIME_WAIT.md)
+
 ## nginx源码
   - [常用web服务器介绍](./document/nginx-1.19.2/常用web服务器介绍.md)
   - [nginx内存池实现和分析](./document/nginx-1.19.2/nginx内存池实现和分析.md)
@@ -51,5 +55,3 @@
   - [OpenResty基本介绍](./document/openresty-1.17.8.2/OpenResty基本介绍.md)
   - [OpenResty源码编译](./document/openresty-1.17.8.2/OpenResty源码编译.md)
  - [init_by_lua指令说明.md](./document/openresty-1.17.8.2/2020-11-17-init_by_lua指令说明.md)
-
-## tengine
