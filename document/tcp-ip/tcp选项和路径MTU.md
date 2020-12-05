@@ -1,8 +1,10 @@
 
 ## TCP选项和路径MTU
-| author | update |
-| ------ | ------ |
-| perrynzhou@gmail.com | 2020/05/24 |
+| 作者 | 时间 |QQ技术交流群 |
+| ------ | ------ |------ |
+| perrynzhou@gmail.com |2020/11/23 |中国开源存储技术交流群(672152841) |
+
+
 ### TCP选项
 
 - TCP最大段选项（MSS）
