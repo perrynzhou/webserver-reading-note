@@ -1,10 +1,9 @@
 ## OpenResty init_by_lua指令说明
 
 
-| author | update |
-| ------ | ------ |
-| perrynzhou@gmail.com | 2020/11/11 |
-
+| 作者 | 时间 |QQ技术交流群 |
+| ------ | ------ |------ |
+| perrynzhou@gmail.com |2020/11/17 |中国开源存储技术交流群(672152841) |
 ##### lua可使用的主要阶段
 
 - init_by_lua/init_by_lua_file指令，处于loading-config阶段，在http块中使用，在nginx管理进程加载配置时候执行，通常用于初始化全局变量或者预加载lua模块

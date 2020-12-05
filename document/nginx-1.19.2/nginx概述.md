@@ -1,8 +1,8 @@
 ## nginx概述
 
-| author | update |
-| ------ | ------ |
-| perrynzhou@gmail.com | 2020/05/24 |
+| 作者 | 时间 |QQ技术交流群 |
+| ------ | ------ |------ |
+| perrynzhou@gmail.com |2020/07/23 |中国开源存储技术交流群(672152841) |
 
 
 ### 开源版本nginx特性

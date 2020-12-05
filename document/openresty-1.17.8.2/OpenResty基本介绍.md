@@ -1,8 +1,8 @@
 ## OpenResty基本介绍
 
-| author | update |
-| ------ | ------ |
-| perrynzhou@gmail.com | 2020/10/27 |
+| 作者 | 时间 |QQ技术交流群 |
+| ------ | ------ |------ |
+| perrynzhou@gmail.com |2020/11/27 |中国开源存储技术交流群(672152841) |
 
 ### OpenResty架构
 
