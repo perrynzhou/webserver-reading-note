@@ -505,7 +505,7 @@ ngx_http_upstream_create(ngx_http_request_t *r)
     return NGX_OK;
 }
 
-
+// upstream模块初始化
 void
 ngx_http_upstream_init(ngx_http_request_t *r)
 {
@@ -785,7 +785,7 @@ found:
 #if (NGX_HTTP_SSL)
     u->ssl_name = uscf->host;
 #endif
-
+    // 这里是load-balance模块
     if (uscf->peer.init(r, uscf) != NGX_OK) {
         ngx_http_upstream_finalize_request(r, u,
                                            NGX_HTTP_INTERNAL_SERVER_ERROR);
@@ -1522,6 +1522,7 @@ ngx_http_upstream_connect(ngx_http_request_t *r, ngx_http_upstream_t *u)
     u->state->connect_time = (ngx_msec_t) -1;
     u->state->header_time = (ngx_msec_t) -1;
 
+    // 这里是真正和后端服务建立连接
     rc = ngx_event_connect_peer(&u->peer);
 
     ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
@@ -1630,6 +1631,7 @@ ngx_http_upstream_connect(ngx_http_request_t *r, ngx_http_upstream_t *u)
     u->request_body_blocked = 0;
 
     if (rc == NGX_AGAIN) {
+        // 设置一个超时定时器，不论是可写/超时事件到达，都将执行ngx_http_upstream_handler
         ngx_add_timer(c->write, u->conf->connect_timeout);
         return;
     }
@@ -2005,7 +2007,7 @@ ngx_http_upstream_send_request(ngx_http_request_t *r, ngx_http_upstream_t *u,
     if (u->state->connect_time == (ngx_msec_t) -1) {
         u->state->connect_time = ngx_current_msec - u->start_time;
     }
-
+    // 实际发送数据之前，需要检查下，u->request_sent是一个旗标，标记请求数据已经发送，函数ngx_http_upstream_test_connect利用套接字选项SO_ERROR判断当前连接是否正常
     if (!u->request_sent && ngx_http_upstream_test_connect(c) != NGX_OK) {
         ngx_http_upstream_next(r, u, NGX_HTTP_UPSTREAM_FT_ERROR);
         return;
@@ -2013,8 +2015,10 @@ ngx_http_upstream_send_request(ngx_http_request_t *r, ngx_http_upstream_t *u,
 
     c->log->action = "sending request to upstream";
 
+    // 实际发送请求
     rc = ngx_http_upstream_send_request_body(r, u, do_write);
 
+    // 如果返回解释失败，则选择下一个可用服务器
     if (rc == NGX_ERROR) {
         ngx_http_upstream_next(r, u, NGX_HTTP_UPSTREAM_FT_ERROR);
         return;
@@ -2092,6 +2096,7 @@ ngx_http_upstream_send_request(ngx_http_request_t *r, ngx_http_upstream_t *u,
         ngx_add_timer(c->read, u->conf->read_timeout);
 
         if (c->read->ready) {
+            // nginx向后端服务器发送完数据，将会执行如下函数，ngx_http_upstream_process_header拉开数据处理流程的序幕
             ngx_http_upstream_process_header(r, u);
             return;
         }
@@ -2277,7 +2282,8 @@ ngx_http_upstream_read_request_handler(ngx_http_request_t *r)
     ngx_http_upstream_send_request(r, u, 0);
 }
 
-
+// nginx向后端服务器发送完数据，将会执行如下函数，ngx_http_upstream_process_header拉开数据处理流程的序幕
+// ngx_http_upstream_process_header函数主要是做将响应数据从u->headers_in.headers拷贝到r->headers_out.headers,而r->headers_out.headers是nginx发往客户端的最终HTTP响应
 static void
 ngx_http_upstream_process_header(ngx_http_request_t *r, ngx_http_upstream_t *u)
 {

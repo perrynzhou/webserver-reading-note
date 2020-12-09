@@ -17,6 +17,7 @@ static ngx_int_t ngx_event_connect_set_transparent(ngx_peer_connection_t *pc,
 #endif
 
 
+// 这个函数首先通过load-balance模块通过get接口选择一个后端服务器，选定服务器后进行一系列系统调用，比如socket/bind/connect进行连接。
 ngx_int_t
 ngx_event_connect_peer(ngx_peer_connection_t *pc)
 {
@@ -31,6 +32,7 @@ ngx_event_connect_peer(ngx_peer_connection_t *pc)
     ngx_event_t       *rev, *wev;
     ngx_connection_t  *c;
 
+    // load-balance模块通过get接口选择一个后端服务器
     rc = pc->get(pc, pc->data);
     if (rc != NGX_OK) {
         return rc;
