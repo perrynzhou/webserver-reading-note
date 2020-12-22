@@ -49,7 +49,12 @@
   - [ngx-hello-world模块编译和测试](./document/nginx-1.19.2/ngx-hello-world模块编译和测试.md)
   - [nginx中tcp反向代理.md](./document/nginx-1.19.2/2020-11-03-nginx中tcp反向代理.md)
   - [nginx框架功能介绍.md（持续更新）](./document/nginx-1.19.2/2020-11-03-nginx框架功能介绍.md)
-  - [nginx子请求介绍](./document/nginx-1.19.2/2020-11-20-nginx子请求介绍.md)
+  - [子请求介绍](./document/nginx-1.19.2/2020-11-20-nginx子请求介绍.md)
+  - [负载均衡简单介绍](./document/nginx-1.19.2/2020-12-22-nginx负载均衡介绍.md)
+  - [深入分析ip_hash负载均衡-持续更新](./document/nginx-1.19.2/2020-12-23-深入分析ip_hash负载均衡.md)
+
+
+
 
 ## openresty
   - [OpenResty基本介绍](./document/openresty-1.17.8.2/OpenResty基本介绍.md)
