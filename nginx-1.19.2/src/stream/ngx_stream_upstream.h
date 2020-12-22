@@ -67,6 +67,7 @@ typedef struct {
 } ngx_stream_upstream_server_t;
 
 
+// upstream 代理服务器配置和服务器信息存储
 struct ngx_stream_upstream_srv_conf_s {
     ngx_stream_upstream_peer_t         peer;
     void                             **srv_conf;

@@ -126,7 +126,9 @@ struct ngx_http_upstream_rr_peers_s {
 
 typedef struct {
     ngx_uint_t                      config;
+    //表示一组后端服务器，比如一个后端集群。
     ngx_http_upstream_rr_peers_t   *peers;
+    //表示一台后端服务器。peer就是对端，指的是上游服务器端
     ngx_http_upstream_rr_peer_t    *current;
     uintptr_t                      *tried;
     uintptr_t                       data;
