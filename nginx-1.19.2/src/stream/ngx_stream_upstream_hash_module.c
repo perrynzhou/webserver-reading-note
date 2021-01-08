@@ -63,6 +63,7 @@ static char *ngx_stream_upstream_hash(ngx_conf_t *cf, ngx_command_t *cmd,
     void *conf);
 
 
+// stream模块的中的hash指令
 static ngx_command_t  ngx_stream_upstream_hash_commands[] = {
 
     { ngx_string("hash"),
