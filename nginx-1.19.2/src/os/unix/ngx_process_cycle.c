@@ -56,6 +56,11 @@ ngx_uint_t    ngx_restart;
 static u_char  master_process[] = "master process";
 
 
+/*
+cache->path->manager = ngx_http_file_cache_manager;
+cache->path->loader = ngx_http_file_cache_loader;
+*/
+
 static ngx_cache_manager_ctx_t  ngx_cache_manager_ctx = {
     ngx_cache_manager_process_handler, "cache manager process", 0
 };
@@ -166,7 +171,7 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
 
         ngx_log_debug1(NGX_LOG_DEBUG_EVENT, cycle->log, 0,
                        "wake up, sigio %i", sigio);
-
+        // 查看是否有子进程退出
         if (ngx_reap) {
             ngx_reap = 0;
             ngx_log_debug0(NGX_LOG_DEBUG_EVENT, cycle->log, 0, "reap children");
@@ -345,14 +350,14 @@ ngx_start_worker_processes(ngx_cycle_t *cycle, ngx_int_t n, ngx_int_t type)
     ch.command = NGX_CMD_OPEN_CHANNEL;
 
     for (i = 0; i < n; i++) {
-
+        // 启用fork初始化子进程，同时在子进程中调用ngx_worker_process_cycle函数
         ngx_spawn_process(cycle, ngx_worker_process_cycle,
                           (void *) (intptr_t) i, "worker process", type);
 
         ch.pid = ngx_processes[ngx_process_slot].pid;
         ch.slot = ngx_process_slot;
         ch.fd = ngx_processes[ngx_process_slot].channel[0];
-
+        // 把当前进程的process信息传递给其他的子进程
         ngx_pass_open_channel(cycle, &ch);
     }
 }
